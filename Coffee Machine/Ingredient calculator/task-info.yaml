@@ -114,12 +114,9 @@ files:
         }
     }
   learner_created: false
-- name: src/machine/Type.kt
-  visible: true
-  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/5660#comment
 status: Solved
 feedback:
   message: Congratulations!
   time: Fri, 15 Apr 2022 13:59:01 UTC
-record: -1
+record: 2
