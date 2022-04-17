@@ -7,15 +7,18 @@ fun main() {
         val quantity = readln().toInt()
         gradients.add(Gradients(type, quantity))
     }
-    val coffeeMenu = Menu(gradients)
+    val coffeeMachine = CoffeeMachine(gradients)
 
     println("Write how many cups of coffee you will need:")
-    val count = readln().toInt()
+    val neededCount = readln().toInt()
 
-    if (coffeeMenu.hasEnoughGradients(count)) {
+    val maximumCount = coffeeMachine.getMaximumCupsOfCoffee()
+    if (maximumCount > neededCount) {
+        println("Yes, I can make that amount of coffee (and event ${maximumCount - neededCount} more than that)")
+    } else if(maximumCount == neededCount) {
         println("Yes, I can make that amount of coffee")
     } else {
-        println("No, I can make only 0 cups of coffee")
+        println("No, I can make only $maximumCount cups of coffee")
     }
 }
 
@@ -34,16 +37,28 @@ class Gradients(val type: Type, val quantity: Int) {
 
 }
 
-class Menu(val gradients: List<Gradients>) {
+class Menu(private val gradients: List<Gradients>) {
     fun getNeededGradients(count: Int): List<Gradients> {
         return gradients.map { Gradients(it.type, it.quantity * count) }
     }
 
-    fun hasEnoughGradients(count: Int): Boolean {
-        val neededGradients = getNeededGradients(count)
-        return neededGradients.all { gradient -> gradients.first { gradient.type == it.type }.quantity <= gradient.quantity }
+    fun getMaximumCupsOfCoffee(offeredGradients: List<Gradients>): Int {
+        return offeredGradients.minOf { target -> target.quantity / gradients.first { it.type == target.type }.quantity }
     }
+}
 
+class CoffeeMachine(private val gradients: List<Gradients>) {
+    private val menu = Menu(
+        mutableListOf(
+            Gradients(Type.WATER, 200),
+            Gradients(Type.MILK, 50),
+            Gradients(Type.COFFEE_BEANS, 15)
+        )
+    )
+
+    fun getMaximumCupsOfCoffee(): Int {
+        return menu.getMaximumCupsOfCoffee(gradients)
+    }
 }
 
 
