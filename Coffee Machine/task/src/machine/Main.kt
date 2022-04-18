@@ -26,6 +26,7 @@ enum class Type(val value: String, val unit: Unit) {
     WATER("water", Unit.ML),
     MILK("milk", Unit.ML),
     COFFEE_BEANS("coffee beans", Unit.G)
+
 }
 
 enum class Unit(val value: String) {
