@@ -1,11 +1,11 @@
 type: choice
 is_multiple_choice: true
 options:
-- text: the fun keyword
-- text: name
-- text: a return type
-- text: the curly braces <b>{ }</b> for the body
-- text: parentheses
+- text: 9 in range
+- text: 10 in range
+- text: 11 in range
+- text: 12 in range
+- text: 13 in range
 files:
 - name: src/Main.kt
   visible: true
@@ -16,7 +16,6 @@ files:
       // put your code here
     }
   learner_created: false
-feedback_link: https://hyperskill.org/learn/step/4582#comment
+feedback_link: https://hyperskill.org/learn/step/4636#comment
 status: Solved
 record: -1
-custom_name: What should be specified?
