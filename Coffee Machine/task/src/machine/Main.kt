@@ -1,25 +1,26 @@
 package machine
 
 fun main() {
-    val gradients = arrayListOf<Gradients>()
-    for (type in Type.values()) {
-        println("Write how many ${type.value} of ${type.unit} the coffee machine has:")
-        val quantity = readln().toInt()
-        gradients.add(Gradients(type, quantity))
-    }
-    val coffeeMachine = CoffeeMachine(gradients)
+    println("The coffee machine has:")
+    val gradients = arrayListOf<Gradients>(
+        Gradients(Type.WATER, 400),
+        Gradients(Type.MILK, 540),
+        Gradients(Type.COFFEE_BEANS, 120),
+    )
+    val coffeeMachine = CoffeeMachine(gradients, 9, 550)
+    printCoffeeMachineStatus(coffeeMachine)
 
-    println("Write how many cups of coffee you will need:")
-    val neededCount = readln().toInt()
+    println("Write action (buy, fill, take):")
+    val action = readln().toInt()
 
-    val maximumCount = coffeeMachine.getMaximumCupsOfCoffee()
-    if (maximumCount > neededCount) {
-        println("Yes, I can make that amount of coffee (and event ${maximumCount - neededCount} more than that)")
-    } else if(maximumCount == neededCount) {
-        println("Yes, I can make that amount of coffee")
-    } else {
-        println("No, I can make only $maximumCount cups of coffee")
-    }
+    println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:")
+    val menu = readln().toInt()
+    printCoffeeMachineStatus(coffeeMachine)
+
+}
+
+fun printCoffeeMachineStatus(coffeeMachine: CoffeeMachine) {
+
 }
 
 enum class Type(val value: String, val unit: Unit) {
@@ -48,7 +49,7 @@ class Menu(private val gradients: List<Gradients>) {
     }
 }
 
-class CoffeeMachine(private val gradients: List<Gradients>) {
+class CoffeeMachine(private val gradients: List<Gradients>, private val cups: Int, private val money: Int) {
     private val menu = Menu(
         mutableListOf(
             Gradients(Type.WATER, 200),
