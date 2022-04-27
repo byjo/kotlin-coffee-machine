@@ -10,8 +10,8 @@ fun main() {
     val coffeeMachine = CoffeeMachine(gradients, 9, 550)
     printCoffeeMachineStatus(coffeeMachine)
 
-    println("Write action (buy, fill, take):")
-    val action = readln().toInt()
+    println("Write action (${Action.values().joinToString(", ")}):")
+    val action = Action.of(readln())
 
     println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:")
     val menu = readln().toInt()
@@ -35,11 +35,23 @@ enum class Unit(val value: String) {
     G("g")
 }
 
+enum class Action(val value: String) {
+    BUY("buy"),
+    FILL("fill"),
+    TAKE("take");
+
+    companion object {
+        fun of(value: String): Action {
+           return values().first { action -> action.value == value }
+        }
+    }
+}
+
 class Gradients(val type: Type, val quantity: Int) {
 
 }
 
-class Menu(private val gradients: List<Gradients>) {
+class Menu(private val name: String, private val gradients: List<Gradients>, private val costs: Int) {
     fun getNeededGradients(count: Int): List<Gradients> {
         return gradients.map { Gradients(it.type, it.quantity * count) }
     }
@@ -50,17 +62,34 @@ class Menu(private val gradients: List<Gradients>) {
 }
 
 class CoffeeMachine(private val gradients: List<Gradients>, private val cups: Int, private val money: Int) {
-    private val menu = Menu(
-        mutableListOf(
-            Gradients(Type.WATER, 200),
-            Gradients(Type.MILK, 50),
-            Gradients(Type.COFFEE_BEANS, 15)
-        )
+    private val menus = arrayListOf(
+        Menu(
+            "espresso",
+            mutableListOf(
+                Gradients(Type.WATER, 250),
+                Gradients(Type.COFFEE_BEANS, 16)
+            ),
+            4
+        ),
+        Menu(
+            "latte",
+            mutableListOf(
+                Gradients(Type.WATER, 350),
+                Gradients(Type.MILK, 75),
+                Gradients(Type.COFFEE_BEANS, 20)
+            ),
+            7
+        ),
+        Menu(
+            "cappuccino",
+            mutableListOf(
+                Gradients(Type.WATER, 200),
+                Gradients(Type.MILK, 100),
+                Gradients(Type.COFFEE_BEANS, 12)
+            ),
+            6
+        ),
     )
-
-    fun getMaximumCupsOfCoffee(): Int {
-        return menu.getMaximumCupsOfCoffee(gradients)
-    }
 }
 
 
